@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Twitter Classic Web</title>
+<style>
+:root{--bg:#c0deed;--bar1:#4aa3df;--bar2:#2677b0;--card:#fff;--line:#e8eef2;--txt:#333;--meta:#8899a6;--link:#0084b4;--side:#def1fb;--btn1:#5fb4ec;--btn2:#2d86c4;--hover:#f4fafd;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f2a3d;--card:#16222c;--line:#243746;--txt:#e6eef3;--meta:#8aa0b0;--link:#5cc0ee;--side:#1b2f3e;--hover:#1b2b37;--bar1:#2b6f9f;--bar2:#17476b;color-scheme:dark}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.4 "Lucida Grande",Helvetica,Arial,sans-serif;min-height:100vh}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bar1);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:linear-gradient(var(--bar1),var(--bar2));border-bottom:1px solid #1c5f8e;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+.hb{max-width:940px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:7px 12px}
+.logo{font:700 24px/1 Georgia,"Times New Roman",serif;color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.3);letter-spacing:-1px;white-space:nowrap}
+.logo i{font-style:normal;margin-inline-end:4px}
+.nav{display:flex;gap:4px}
+.nav a,.nav button{color:#fff;text-decoration:none;font-weight:700;font-size:13px;padding:5px 10px;border-radius:4px;background:none;border:0;cursor:pointer;font-family:inherit}
+.nav a.on,.nav a:hover{background:rgba(0,0,0,.2)}
+.hb input[type=search]{margin-inline-start:auto;width:190px;max-width:38vw;padding:5px 10px;border:1px solid #1c5f8e;border-radius:14px;font:13px "Lucida Grande",Helvetica,Arial,sans-serif;background:#fff;color:#333}
+select{padding:4px;border-radius:4px;border:1px solid #1c5f8e;font:13px "Lucida Grande",Helvetica,Arial,sans-serif;background:#fff;color:#333}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #ffb400;outline-offset:1px}
+.wrap{max-width:940px;margin:14px auto;padding:0 12px;display:grid;grid-template-columns:1fr 300px;gap:14px}
+.box{background:var(--card);border-radius:6px;border:1px solid rgba(0,0,0,.08);box-shadow:0 0 6px rgba(0,60,100,.12)}
+.compose{padding:12px;margin-bottom:12px;background:var(--side)}
+.compose h2{margin:0 0 6px;font-size:18px;font-weight:700}
+textarea{width:100%;height:68px;resize:none;border:1px solid #a9c9dc;border-radius:4px;padding:7px;font:14px/1.4 "Lucida Grande",Helvetica,Arial,sans-serif;background:var(--card);color:var(--txt)}
+.cr{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:6px}
+#cnt{font:700 18px Georgia,serif;color:var(--meta)}#cnt.w{color:#d40d12}
+.btn{background:linear-gradient(var(--btn1),var(--btn2));color:#fff;font-weight:700;border:1px solid #1c5f8e;border-radius:4px;padding:6px 16px;cursor:pointer;font:700 13px "Lucida Grande",Helvetica,Arial,sans-serif;text-shadow:0 -1px 0 rgba(0,0,0,.25)}
+.btn:disabled{opacity:.45;cursor:default}
+.tl .tw{display:flex;gap:10px;padding:11px 12px;border-bottom:1px solid var(--line)}
+.tl .tw:last-child{border:0}.tl .tw:hover{background:var(--hover)}
+.tl .tw.new{animation:fl 1.4s}
+@keyframes fl{from{background:#fff7c2}to{background:transparent}}
+@media (prefers-reduced-motion:reduce){.tl .tw.new{animation:none}}
+.av{flex:none;width:48px;height:48px;border-radius:5px;color:#fff;font:700 20px/48px Georgia,serif;text-align:center}
+.bd{min-width:0;flex:1}
+.nm b{font-size:14px}.nm span,.tm{color:var(--meta);font-size:12px}
+.nm .tm{float:right}[dir=rtl] .nm .tm{float:left}
+.tx{margin:2px 0 4px;word-wrap:break-word;font-size:15px}
+.lk{color:var(--link)}
+.ac{display:flex;gap:16px;font-size:12px}
+.ac button{background:none;border:0;color:var(--meta);cursor:pointer;font:12px "Lucida Grande",Helvetica,Arial,sans-serif;padding:2px 0}
+.ac button:hover{color:var(--link)}
+.ac .on.rt{color:#4aa84a;font-weight:700}.ac .on.fv{color:#e8a600;font-weight:700}
+.side .box{margin-bottom:12px}
+.pf{padding:12px;display:flex;gap:10px;align-items:center}
+.pf .av{width:56px;height:56px;line-height:56px;font-size:24px}
+.st{display:flex;border-top:1px solid var(--line)}
+.st div{flex:1;padding:8px 6px;text-align:center;border-inline-end:1px solid var(--line);font-size:11px;color:var(--meta)}
+.st div:last-child{border:0}.st b{display:block;font-size:17px;color:var(--txt)}
+.side h3{margin:0;padding:9px 12px;font-size:14px;border-bottom:1px solid var(--line);background:var(--side);border-radius:6px 6px 0 0}
+.tr a{display:block;padding:7px 12px;border-bottom:1px solid var(--line);color:var(--link);text-decoration:none;font-weight:700;cursor:pointer}
+.tr a:last-child{border:0}.tr a:hover{background:var(--hover)}
+.wf{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line)}
+.wf:last-child{border:0}.wf .av{width:32px;height:32px;line-height:32px;font-size:14px}
+.wf div{flex:1;min-width:0;font-size:12px}.wf b{font-size:13px;display:block;overflow:hidden;text-overflow:ellipsis}
+.fb{background:linear-gradient(#fff,#e4eef4);color:#333;border:1px solid #bbb;border-radius:3px;padding:3px 8px;font:700 11px "Lucida Grande",Helvetica,Arial,sans-serif;cursor:pointer}
+.fb.on{background:linear-gradient(var(--btn1),var(--btn2));color:#fff;border-color:#1c5f8e}
+.foot{text-align:center;color:var(--meta);font-size:12px;padding:6px}
+@media (max-width:760px){.wrap{grid-template-columns:1fr}.side{order:-1}.nav a:nth-child(2){display:none}}
+:root{--promo:#fffbe6}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--promo:#2a2d1a}}
+.bird{position:relative;display:inline-block;width:32px;height:32px;vertical-align:-9px;margin-inline-end:6px}
+.bird::before{content:"";position:absolute;left:0;top:0;width:512px;height:512px;background:#fff;transform:scale(.0625);transform-origin:0 0;filter:drop-shadow(0 8px 0 rgba(0,0,0,.25));clip-path:path("M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z")}
+.hb{flex-wrap:wrap}.nav{overflow-x:auto}
+@media (max-width:760px){.nav a:nth-child(2){display:inline-block}}
+.nb2{background:rgba(0,0,0,.2);color:#fff;border:0;border-radius:4px;padding:5px 8px;cursor:pointer}
+#bgc{width:26px;height:26px;padding:0;border:1px solid #1c5f8e;border-radius:4px;background:none;cursor:pointer}
+.nbar{background:var(--side);border:1px solid #a9c9dc;border-radius:6px;text-align:center;padding:8px;margin-bottom:10px;color:var(--link);font-weight:700;cursor:pointer}
+.vf{color:#fff;background:#2b9bd6;border-radius:50%;font-size:9px;padding:1px 3px;margin:0 3px;vertical-align:1px}
+.rb{color:var(--meta);font-size:12px}.tl .tw.pr{background:var(--promo)}.tx{cursor:pointer}
+.ph{height:120px;border-radius:5px;margin:6px 0;position:relative;overflow:hidden;border:1px solid var(--line);background:radial-gradient(circle at 78% 28%,#ffe98a 0 14px,transparent 15px),linear-gradient(#8fd0f0 60%,#5aa25a 60%)}
+.ph::after{content:"";position:absolute;left:-10%;bottom:30%;width:60%;height:60px;background:#4b8f4f;border-radius:50% 50% 0 0}
+.gs div{padding:6px 12px;border-bottom:1px solid var(--line);font-size:13px}.gs div:last-child{border:0}
+.tr a.on{background:var(--hover);color:var(--txt)}
+.dm{display:flex;min-height:300px}.dml{width:130px;border-inline-end:1px solid var(--line)}.dml a{display:flex;align-items:center;gap:6px;padding:8px;cursor:pointer;font-size:13px}.dml a.on{background:var(--hover);font-weight:700}.dml .av{width:26px;height:26px;line-height:26px;font-size:13px}
+.dmr{flex:1;display:flex;flex-direction:column;padding:8px;min-width:0}.dmm{flex:1;display:flex;flex-direction:column;gap:6px;overflow:auto;max-height:340px;padding:4px}
+.mb{background:var(--side);padding:6px 10px;border-radius:10px;max-width:80%;align-self:flex-start;word-wrap:break-word}.mb.me{align-self:flex-end;background:#2d86c4;color:#fff}
+.dmr input,.pfh input{padding:6px;border:1px solid #a9c9dc;border-radius:4px;background:var(--card);color:var(--txt);font:14px "Lucida Grande",Helvetica,Arial,sans-serif;min-width:0}.dmr input{flex:1}.dmr .cr{justify-content:stretch;gap:6px}
+.pfh{display:flex;gap:10px;padding:14px 12px;border-bottom:1px solid var(--line);background:var(--side)}.pfh .av{width:64px;height:64px;line-height:64px;font-size:28px}.pfh input{margin:6px 6px 6px 0;width:min(260px,60vw)}
+#fw{position:fixed;inset:0;z-index:50;background:rgba(0,40,70,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:#fff;text-align:center;padding:20px}#fw[hidden]{display:none}
+.whale{width:170px;height:84px;background:#7cc7ea;border-radius:90px 90px 50px 90px/80px 80px 50px 50px;position:relative;box-shadow:inset 0 -14px 0 #fff}
+.whale::before{content:"";position:absolute;right:-22px;top:-14px;width:44px;height:34px;background:#7cc7ea;border-radius:0 100% 0 100%;transform:rotate(18deg)}
+.whale::after{content:"";position:absolute;left:34px;top:30px;width:8px;height:8px;border-radius:50%;background:#123}
+@media (max-width:760px){.dml{width:96px}}
+</style>
+</head>
+<body>
+<header><div class="hb">
+<div class="logo"><span class="bird"></span>twitter</div>
+<nav class="nav"><a href="#" class="on" id="n0" data-v="home"></a><a href="#" id="n1" data-v="mentions"></a><a href="#" id="n2" data-v="dm"></a><a href="#" id="n3" data-v="favs"></a><a href="#" id="n4" data-v="profile"></a></nav>
+<input type="search" id="q" autocomplete="off"><button class="nb2" id="sv">★</button><input type="color" id="bgc" value="#c0deed">
+<select id="lg" aria-label="Language">
+<option value="es">Español</option><option value="en">English</option><option value="pt">Português</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="ja">日本語</option><option value="zh">中文</option><option value="ru">Русский</option><option value="ar">العربية</option>
+</select>
+</div></header>
+<div class="wrap">
+<main>
+<div class="box compose" id="cbox"><h2 id="hp"></h2>
+<textarea id="ta" maxlength="140"></textarea>
+<div class="cr"><button class="fb" id="ph">📷</button><span id="cnt">140</span><button class="btn" id="go" disabled></button></div></div>
+<div class="nbar" id="nb" hidden></div><div class="box tl" id="tl"></div>
+</main>
+<aside class="side">
+<div class="box"><div class="pf"><div class="av" style="background:#1da1c8">T</div><div><b>Tú</b><br><span class="tm">@tu_usuario</span></div></div>
+<div class="st"><div><b id="s1">0</b><span id="l1"></span></div><div><b id="s2">0</b><span id="l2"></span></div><div><b id="s3">0</b><span id="l3"></span></div></div></div>
+<div class="box"><h3 id="h3g"></h3><div class="gs" id="gs"></div></div>
+<div class="box"><h3><span id="h3a"></span><button class="fb" id="rf" style="float:right">↻</button></h3><div id="who"></div></div>
+<div class="box"><h3 id="h3l"></h3><div class="tr" id="ls"></div></div>
+<div class="box" id="svb" hidden><h3 id="h3s"></h3><div class="tr" id="sv2"></div></div>
+<div class="box"><h3 id="h3b"></h3><div class="tr" id="tr"></div></div>
+</aside>
+</div>
+<div id="fw" hidden><div class="whale"></div><p id="fwt"></p><button class="btn" id="fwb">OK</button></div>
+<div class="foot">Twitter Classic Web · demo</div>
+<script>
+const L={
+es:["Inicio","Menciones","Buscar","¿Qué está pasando?","Twittear","Tendencias","A quién seguir","Seguir","Siguiendo","Retwittear","Favorito","Responder","Tweets","Seguidores","Siguiendo","ahora"],
+en:["Home","Mentions","Search","What’s happening?","Tweet","Trends","Who to follow","Follow","Following","Retweet","Favorite","Reply","Tweets","Followers","Following","now"],
+pt:["Início","Menções","Buscar","O que está acontecendo?","Tweetar","Trends","Quem seguir","Seguir","Seguindo","Retweetar","Favoritar","Responder","Tweets","Seguidores","Seguindo","agora"],
+fr:["Accueil","Mentions","Rechercher","Quoi de neuf ?","Tweeter","Tendances","Qui suivre","Suivre","Abonné","Retweeter","Favori","Répondre","Tweets","Abonnés","Abonnements","à l’instant"],
+de:["Start","Erwähnungen","Suchen","Was gibt’s Neues?","Twittern","Trends","Wem folgen","Folgen","Folge ich","Retweeten","Favorit","Antworten","Tweets","Follower","Folge ich","jetzt"],
+it:["Home","Menzioni","Cerca","Cosa succede?","Twitta","Tendenze","Chi seguire","Segui","Segui già","Ritwitta","Preferito","Rispondi","Tweet","Follower","Seguiti","ora"],
+ja:["ホーム","@ツイート","検索","いまどうしてる？","ツイート","トレンド","おすすめユーザー","フォロー","フォロー中","リツイート","お気に入り","返信","ツイート","フォロワー","フォロー","今"],
+zh:["主页","提及","搜索","有什么新鲜事？","发推","热门话题","推荐关注","关注","正在关注","转推","收藏","回复","推文","关注者","正在关注","刚刚"],
+ru:["Главная","Упоминания","Поиск","Что происходит?","Твитнуть","Тренды","Кого читать","Читать","Читаю","Ретвитнуть","В избранное","Ответить","Твиты","Читатели","Читаю","сейчас"],
+ar:["الرئيسية","الإشارات","بحث","ماذا يحدث؟","غرّد","المواضيع الرائجة","من تتابع","تابع","تتابعه","إعادة تغريد","المفضلة","رد","تغريدات","المتابعون","يتابع","الآن"]};
+const L2={
+es:["Mensajes","Favoritos","Perfil","Eliminar","Silenciar","Promocionado","tweets nuevos","Listas","Búsquedas guardadas","Guardar","Retwitteado por","en respuesta a","desde la web","Foto","Escribe tu bio","empezó a seguirte","Primeros pasos","Enviar","Twitter está sobrecargado. ¡Demasiados tweets! Espera un momento e inténtalo de nuevo.","Color de fondo","Amigos","Noticias","Música"],
+en:["Messages","Favorites","Profile","Delete","Mute","Promoted","new tweets","Lists","Saved searches","Save","Retweeted by","in reply to","from web","Photo","Write your bio","started following you","Getting started","Send","Twitter is over capacity. Too many tweets! Please wait a moment and try again.","Background color","Friends","News","Music"],
+pt:["Mensagens","Favoritos","Perfil","Excluir","Silenciar","Promovido","novos tweets","Listas","Buscas salvas","Salvar","Retweetado por","em resposta a","pela web","Foto","Escreva sua bio","começou a seguir você","Primeiros passos","Enviar","O Twitter está sobrecarregado. Tweets demais! Aguarde um momento e tente de novo.","Cor de fundo","Amigos","Notícias","Música"],
+fr:["Messages","Favoris","Profil","Supprimer","Masquer","Sponsorisé","nouveaux tweets","Listes","Recherches enregistrées","Enregistrer","Retweeté par","en réponse à","depuis le web","Photo","Écrivez votre bio","vous suit désormais","Premiers pas","Envoyer","Twitter est surchargé. Trop de tweets ! Patientez un instant et réessayez.","Couleur de fond","Amis","Actus","Musique"],
+de:["Nachrichten","Favoriten","Profil","Löschen","Stummschalten","Promotet","neue Tweets","Listen","Gespeicherte Suchen","Speichern","Retweetet von","als Antwort an","über Web","Foto","Schreibe deine Bio","folgt dir jetzt","Erste Schritte","Senden","Twitter ist überlastet. Zu viele Tweets! Bitte warte einen Moment und versuche es erneut.","Hintergrundfarbe","Freunde","News","Musik"],
+it:["Messaggi","Preferiti","Profilo","Elimina","Silenzia","Promosso","nuovi tweet","Liste","Ricerche salvate","Salva","Ritwittato da","in risposta a","dal web","Foto","Scrivi la tua bio","ha iniziato a seguirti","Primi passi","Invia","Twitter è sovraccarico. Troppi tweet! Attendi un attimo e riprova.","Colore di sfondo","Amici","Notizie","Musica"],
+ja:["メッセージ","お気に入り","プロフィール","削除","ミュート","プロモーション","件の新しいツイート","リスト","保存した検索","保存","リツイートした人:","返信先:","webから","写真","自己紹介を書く","があなたをフォローしました","はじめに","送信","Twitterは混雑しています。しばらくしてからもう一度お試しください。","背景色","友だち","ニュース","音楽"],
+zh:["私信","收藏夹","个人资料","删除","静音","推广","条新推文","列表","已保存的搜索","保存","转推自","回复","来自网页","照片","写下你的简介","关注了你","新手指南","发送","Twitter 超载了。推文太多！请稍等片刻后重试。","背景颜色","朋友","新闻","音乐"],
+ru:["Сообщения","Избранное","Профиль","Удалить","Скрыть","Реклама","новых твитов","Списки","Сохранённые поиски","Сохранить","Ретвитнул(а)","в ответ","с веб-сайта","Фото","Напишите о себе","теперь читает вас","Первые шаги","Отправить","Twitter перегружен. Слишком много твитов! Подождите немного и попробуйте снова.","Цвет фона","Друзья","Новости","Музыка"],
+ar:["الرسائل","المفضلة","الملف الشخصي","حذف","كتم","ممول","تغريدات جديدة","القوائم","عمليات البحث المحفوظة","حفظ","أعاد التغريد:","رداً على","من الويب","صورة","اكتب نبذتك","بدأ بمتابعتك","الخطوات الأولى","إرسال","تويتر مزدحم. تغريدات كثيرة جداً! انتظر قليلاً وحاول مرة أخرى.","لون الخلفية","أصدقاء","أخبار","موسيقى"]};
+const TR={es:"#LunesDeCafé|#Fútbol|#HTML|Nuevo disco|Lluvia",en:"#MondayMotivation|#Football|#HTML|New album|Rainy day",pt:"#SegundaFeira|#Futebol|#HTML|Novo álbum|Chuva",fr:"#LundiCafé|#Foot|#HTML|Nouvel album|Pluie",de:"#Montag|#Fußball|#HTML|Neues Album|Regen",it:"#Lunedì|#Calcio|#HTML|Nuovo album|Pioggia",ja:"#月曜日|#サッカー|#HTML|新曲|雨",zh:"#周一|#足球|#HTML|新专辑|下雨",ru:"#Понедельник|#Футбол|#HTML|Новый альбом|Дождь",ar:"#الاثنين|#كرة_القدم|#HTML|ألبوم_جديد|مطر"};
+const T={
+es:[["Lucía","lucia_d","Primer café del día y ya hay 3 reuniones. Así empieza el lunes ☕"],["Diego","diegogol","¿Alguien más viendo el partido? Qué nervios 😬 #Fútbol"],["Carmen","carmenvl","Acabo de terminar mi primer proyecto en #HTML. ¡Se siente increíble!"],["Pablo","pablo_rm","Recomiéndenme una buena serie para el fin de semana 🍿"],["Valeria","vale_sol","Llueve en la ciudad y yo con ganas de quedarme en casa 🌧️"]],
+en:[["Jake","jake_w","First coffee of the day and already 3 meetings. Monday, huh? ☕ #MondayMotivation"],["Emma","emma_codes","Just shipped my first #HTML page. Feeling unstoppable!"],["Noah","noahplays","Anyone else watching the game tonight? My nerves can’t take it 😬 #Football"],["Olivia","liv_reads","Looking for a good show to binge this weekend. Go. 🍿"],["Liam","liam_88","Rainy day, blanket, tea. Don’t call me. 🌧️"]],
+pt:[["Rafael","rafa_sp","Primeiro café do dia e já são 3 reuniões. Segunda-feira, né? ☕"],["Beatriz","bia_dev","Acabei de publicar minha primeira página em #HTML. Que sensação!"],["Thiago","thiagogol","Alguém mais assistindo ao jogo? Que nervoso 😬 #Futebol"],["Camila","cami_rj","Me indiquem uma série boa para o fim de semana 🍿"],["Bruno","bruno_mg","Choveu o dia todo, hoje é dia de ficar em casa 🌧️"]],
+fr:[["Pierre","pierre75","Premier café de la journée et déjà 3 réunions. C’est lundi ☕"],["Camille","cam_lyon","Je viens de finir ma première page #HTML. Trop fière !"],["Julien","juju_foot","Quelqu’un regarde le match ? Je stresse 😬 #Foot"],["Chloé","chloe_lit","Une bonne série à me conseiller pour ce week-end ? 🍿"],["Hugo","hugo_pluie","Il pleut sur Paris, parfait pour rester sous la couette 🌧️"]],
+de:[["Lukas","lukas_b","Erster Kaffee und schon drei Meetings. Montag eben ☕ #Montag"],["Anna","anna_hh","Meine erste #HTML-Seite ist online. Ich bin stolz!"],["Felix","felix_fc","Schaut jemand das Spiel? Meine Nerven 😬 #Fußball"],["Mia","mia_liest","Welche Serie soll ich am Wochenende schauen? 🍿"],["Jonas","jonas_m","Es regnet, ich bleibe heute auf dem Sofa 🌧️"]],
+it:[["Marco","marco_rm","Primo caffè e già tre riunioni. Buon lunedì ☕ #Lunedì"],["Giulia","giulia_to","Ho appena finito la mia prima pagina #HTML. Che soddisfazione!"],["Luca","luca_calcio","Qualcuno guarda la partita? Che ansia 😬 #Calcio"],["Chiara","chiara_bo","Consigliatemi una serie per il weekend 🍿"],["Matteo","matte_na","Piove a dirotto, oggi divano e coperta 🌧️"]],
+ja:[["愛子","aiko_n","今日の一杯目のコーヒー。もう会議が3つ…月曜日だね ☕"],["健太","kenta_t","初めて作った #HTML ページが完成！うれしい！"],["さくら","sakura_k","みんな試合見てる？ドキドキする 😬 #サッカー"],["翔","sho_dev","週末に見るおすすめのドラマ教えて 🍿"],["美咲","misaki_o","雨の日は家でのんびりが一番 🌧️"]],
+zh:[["小明","xiaoming","今天第一杯咖啡，已经有三个会议了。周一就是这样 ☕ #周一"],["丽丽","lili_sh","刚完成我的第一个 #HTML 页面，太开心了！"],["大伟","dawei_bj","有人在看比赛吗？紧张死了 😬 #足球"],["雨欣","yuxin_gz","周末想追剧，大家有推荐吗？🍿"],["子豪","zihao_sz","外面下雨，今天只想待在家里 🌧️"]],
+ru:[["Иван","ivan_msk","Первый кофе и уже три встречи. Это понедельник ☕ #Понедельник"],["Анна","anna_spb","Закончила свою первую страницу на #HTML. Горжусь!"],["Дмитрий","dima_gol","Кто смотрит матч? Нервы на пределе 😬 #Футбол"],["Ольга","olga_kn","Посоветуйте сериал на выходные 🍿"],["Максим","maks_83","За окном дождь, сегодня сидим дома 🌧️"]],
+ar:[["أحمد","ahmed_q","أول فنجان قهوة وعندي ثلاثة اجتماعات. هذا هو الاثنين ☕ #الاثنين"],["ليلى","layla_c","انتهيت من أول صفحة #HTML لي. أشعر بالفخر!"],["عمر","omar_fc","هل يتابع أحد المباراة؟ أعصابي تتعب 😬 #كرة_القدم"],["سارة","sara_r","اقترحوا علي مسلسلاً لعطلة نهاية الأسبوع 🍿"],["يوسف","yousef_m","الجو ماطر اليوم، سأبقى في البيت 🌧️"]]};
+const $=s=>document.querySelector(s),COL=["#d9534f","#5cb85c","#8e6bbf","#e08a1e","#2a9fbf","#c2527a","#6a7f8e"];
+let lang="es",mine=[],sim=[],ment=[],newq=[],liked=new Set(),rted=new Set(),fol=new Set(),muted=new Set(),ex=new Set(),saved=[],filter="",uid=0,view="home",unread=0,bio="",dms={},dmc="",dmSent=0,listI=-1,lists=[],photo=0,rep="",over=0,w0=0;
+try{const s=localStorage.getItem("tcw-lang");if(s&&L[s])lang=s}catch(e){}
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=s=>esc(s).replace(/(https?:\/\/[^\s<]+)|([#@][\p{L}\p{N}_]+)/gu,(m,u,k)=>u?`<span class="lk">t.co/${[...u].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7).toString(36).slice(0,7)}</span>`:`<a class="lk" data-q="${k}">${k}</a>`);
+const col=h=>COL[[...h].reduce((a,c)=>a+c.charCodeAt(0),0)%COL.length];
+function mk(p,age){return{id:++uid,n:p[0],h:p[1],x:p[2],ts:Date.now()-age*6e4,r:Math.floor(Math.random()*30),f:Math.floor(Math.random()*60),sim:1,v:[...p[1]].reduce((a,c)=>a+c.charCodeAt(0),0)%3===0,ph:Math.random()<.2,rb:Math.random()<.25?T[lang][Math.floor(Math.random()*5)][0]:""}}
+function build(){newq=[];ment=[];listI=-1;dmc="";dms={};T[lang].slice(0,3).forEach(p=>dms[p[1]]=[{t:p[2]}]);sim=T[lang].map((p,i)=>mk(p,i*9+Math.floor(Math.random()*6)))}
+function ago(ts){const m=Math.floor((Date.now()-ts)/6e4);return m<1?L[lang][15]:m<60?m+"m":Math.floor(m/60)+"h"}
+const PR={id:-1,n:"Twitter",h:"twitter",x:"#Twitter ✨ https://twitter.com/about",ts:Date.now()-3e6,r:99,f:99,promo:1,v:1};
+function item(w,newId){
+const t=L[lang],u=L2[lang],r=rted.has(w.id),l=liked.has(w.id);
+return `<div class="tw${w.id===newId?" new":""}${w.promo?" pr":""}"><div class="av" style="background:${w.me?"#1da1c8":col(w.h)}">${esc(w.n[0])}</div><div class="bd">${w.rb?`<div class="rb">↻ ${u[10]} ${esc(w.rb)}</div>`:""}${r?`<div class="rb">↻ ${u[10]} @tu_usuario</div>`:""}<div class="nm"><b>${esc(w.n)}</b>${w.v?'<span class="vf">✔</span>':""} <span>@${esc(w.h)}</span><span class="tm">${w.promo?u[5]:ago(w.ts)+" · "+u[12]}</span></div>${w.rep?`<div class="rb">↩ ${u[11]} @${esc(w.rep)}</div>`:""}<div class="tx" data-x="${w.id}">${w.fl?"★ "+u[15]:fmt(w.x)}</div>${w.ph?'<div class="ph"></div>':""}${ex.has(w.id)?`<div class="rb">${new Date(w.ts).toLocaleString()} · ${u[12]}</div>`:""}${w.promo||w.fl?"":`<div class="ac"><button data-a="re" data-id="${w.id}">${t[11]}</button><button class="rt${r?" on":""}" data-a="rt" data-id="${w.id}">${t[9]} ${w.r+(r?1:0)}</button><button class="fv${l?" on":""}" data-a="fv" data-id="${w.id}">${l?"★":"☆"} ${t[10]} ${w.f+(l?1:0)}</button>${w.me?`<button data-a="dl" data-id="${w.id}">${u[3]}</button>`:`<button data-a="mu" data-id="${w.id}">${u[4]}</button>`}</div>`}</div></div>`}
+function dmView(){
+const c=T[lang].slice(0,3);if(!c.find(p=>p[1]===dmc))dmc=c[0][1];
+return `<div class="dm"><div class="dml">${c.map(p=>`<a data-c="${p[1]}" class="${p[1]===dmc?"on":""}"><span class="av" style="background:${col(p[1])}">${esc(p[0][0])}</span>${esc(p[0])}</a>`).join("")}</div><div class="dmr"><div class="dmm">${(dms[dmc]||[]).map(m=>`<div class="mb${m.me?" me":""}">${esc(m.t)}</div>`).join("")}</div><div class="cr"><input id="dmi" maxlength="140"><button class="btn" id="dmg">${L2[lang][17]}</button></div></div></div>`}
+function profHead(){
+const t=L[lang],u=L2[lang];
+return `<div class="pfh"><div class="av" style="background:#1da1c8">T</div><div><b>Tú</b> <span class="tm">@tu_usuario</span><div><input id="bio" value="${esc(bio)}" placeholder="${u[14]}" maxlength="80"><button class="fb" id="bs">${u[9]}</button></div><div class="tm">${mine.length} ${t[12]} · ${3+fol.size} ${t[13]} · ${fol.size} ${t[14]}</div></div></div>`}
+function draw(newId){
+const t=L[lang],u=L2[lang],f=filter.toLowerCase();
+$("#cbox").hidden=view!=="home"&&view!=="profile";
+$("#nb").hidden=!(view==="home"&&newq.length);$("#nb").textContent=newq.length+" "+u[6];
+document.querySelectorAll(".nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===view));
+let h;
+if(view==="dm")h=dmView();else{
+let s=view==="mentions"?ment:view==="favs"?[...mine,...sim,...ment].filter(w=>liked.has(w.id)):view==="profile"?mine:[...mine,...sim];
+s=s.filter(w=>!muted.has(w.h)&&(!f||((w.x||"")+w.n+w.h).toLowerCase().includes(f))&&(listI<0||view!=="home"||w.me||lists[listI][2].some(p=>p[1]===w.h))).sort((a,b)=>b.ts-a.ts);
+if(view==="home"&&!f&&listI<0&&s.length>2)s.splice(2,0,PR);
+h=(view==="profile"?profHead():"")+s.map(w=>item(w,newId)).join("");}
+$("#tl").innerHTML=h;
+$("#n1").textContent=t[1]+(unread?" ("+unread+")":"");
+$("#s1").textContent=mine.length;$("#s2").textContent=3+fol.size;$("#s3").textContent=fol.size;
+}
+function side2(){
+const t=L[lang],u=L2[lang],p=T[lang];
+$("#gs").innerHTML=[[mine.length,t[4]],[fol.size,t[7]],[dmSent,u[0]]].map(x=>`<div>${x[0]?"☑":"☐"} ${x[1]}</div>`).join("");
+lists=[["👥",u[20],p.slice(0,2)],["📰",u[21],p.slice(2,4)],["🎵",u[22],p.slice(4)]];
+$("#ls").innerHTML=lists.map((l,i)=>`<a data-l="${i}" class="${i===listI?"on":""}">${l[0]} ${esc(l[1])}</a>`).join("");
+$("#svb").hidden=!(saved.length||muted.size);
+$("#sv2").innerHTML=saved.map((s,i)=>`<a data-q="${esc(s)}">🔍 ${esc(s)} <span data-rm="${i}" style="float:right">✕</span></a>`).join("")+[...muted].map(h=>`<a data-un="${esc(h)}">🔇 @${esc(h)} <span style="float:right">✕</span></a>`).join("");
+}
+function rot(){const p=T[lang];return[...p.slice(w0),...p.slice(0,w0)].slice(0,4)}
+function sendDm(){
+const i=$("#dmi"),v=i.value.trim();if(!v)return;
+(dms[dmc]=dms[dmc]||[]).push({me:1,t:v});dmSent=1;const c=dmc;draw();side();$("#dmi").focus();
+setTimeout(()=>{const x=T[lang][Math.floor(Math.random()*5)][2];dms[c].push({t:x});const m=document.querySelector(".dmm");if(view==="dm"&&dmc===c&&m){const d=document.createElement("div");d.className="mb";d.textContent=x;m.appendChild(d);m.scrollTop=m.scrollHeight}},1500)}
+function side(){
+const t=L[lang];
+$("#who").innerHTML=rot().map(p=>`<div class="wf"><div class="av" style="background:${col(p[1])}">${esc(p[0][0])}</div><div><b>${esc(p[0])}</b>@${esc(p[1])}</div><button class="fb${fol.has(p[1])?" on":""}" data-h="${p[1]}">${fol.has(p[1])?t[8]:t[7]}</button></div>`).join("");
+side2();$("#tr").innerHTML=TR[lang].split("|").map(x=>`<a data-q="${esc(x)}">${esc(x)}</a>`).join("");
+}
+function ui(){
+const t=L[lang];
+document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+const u=L2[lang];$("#n0").textContent=t[0];$("#n1").textContent=t[1];$("#n2").textContent=u[0];$("#n3").textContent=u[1];$("#n4").textContent=u[2];$("#h3g").textContent=u[16];$("#h3l").textContent=u[7];$("#h3s").textContent=u[8];$("#ph").title=u[13];$("#sv").title=u[9];$("#bgc").title=u[19];$("#q").placeholder=t[2];$("#hp").textContent=t[3];$("#ta").placeholder=t[3];$("#go").textContent=t[4];
+$("#h3a").textContent=t[6];$("#h3b").textContent=t[5];$("#l1").textContent=t[12];$("#l2").textContent=t[13];$("#l3").textContent=t[14];
+$("#lg").value=lang;side();draw();
+}
+$("#lg").onchange=e=>{lang=e.target.value;try{localStorage.setItem("tcw-lang",lang)}catch(x){}build();ui()};
+$("#ta").oninput=()=>{const n=140-$("#ta").value.length;$("#cnt").textContent=n;$("#cnt").className=n<20?"w":"";$("#go").disabled=!$("#ta").value.trim()};
+$("#go").onclick=()=>{const v=$("#ta").value.trim();if(!v)return;if(!over&&Math.random()<.07){over=1;$("#fwt").textContent=L2[lang][18];$("#fw").hidden=false;return}over=0;const w={id:++uid,n:"Tú",h:"tu_usuario",x:v,ts:Date.now(),r:0,f:0,me:1,ph:photo,rep:rep&&v.startsWith("@"+rep)?rep:""};mine.unshift(w);$("#ta").value="";photo=0;rep="";$("#ph").classList.remove("on");$("#ta").oninput();draw(w.id);side()};
+$("#fwb").onclick=()=>{$("#fw").hidden=true;$("#go").click()};
+$("#ph").onclick=()=>{photo=photo?0:1;$("#ph").classList.toggle("on",!!photo)};
+$("#sv").onclick=()=>{if(filter&&!saved.includes(filter)){saved.push(filter);side()}};
+$("#rf").onclick=()=>{w0=(w0+1)%5;side()};
+$("#bgc").oninput=e=>document.documentElement.style.setProperty("--bg",e.target.value);
+$("#nb").onclick=()=>{sim.unshift(...newq);newq=[];sim.splice(40);draw(sim[0].id)};
+$(".nav").onclick=e=>{const a=e.target.closest("a");if(!a)return;e.preventDefault();view=a.dataset.v;if(view==="mentions")unread=0;if(view==="home"){filter="";$("#q").value="";listI=-1}draw();side()};
+$("#ls").onclick=e=>{const a=e.target.closest("a");if(!a)return;const i=+a.dataset.l;listI=listI===i?-1:i;view="home";filter="";$("#q").value="";draw();side()};
+$("#sv2").onclick=e=>{const a=e.target.closest("a");if(!a)return;if(e.target.dataset.rm!==undefined)saved.splice(+e.target.dataset.rm,1);else if(a.dataset.un)muted.delete(a.dataset.un);else{filter=a.dataset.q;$("#q").value=filter;view="home"}side();draw()};
+$("#q").oninput=e=>{filter=e.target.value;draw()};
+$("#n0").onclick=e=>{e.preventDefault();filter="";$("#q").value="";draw()};
+$("#tl").onclick=e=>{
+const q=e.target.closest("[data-q]");if(q){filter=q.dataset.q;$("#q").value=filter;view="home";draw();return}
+const c=e.target.closest("[data-c]");if(c){dmc=c.dataset.c;draw();return}
+if(e.target.id==="dmg"){sendDm();return}
+if(e.target.id==="bs"){bio=$("#bio").value;draw();return}
+const x=e.target.closest("[data-x]");if(x){const i=+x.dataset.x;ex.has(i)?ex.delete(i):ex.add(i);draw();return}
+const b=e.target.closest("button");if(!b)return;
+const id=+b.dataset.id,a=b.dataset.a,w=[...mine,...sim,...ment].find(x=>x.id===id);
+if(a==="rt")rted.has(id)?rted.delete(id):rted.add(id);
+if(a==="fv")liked.has(id)?liked.delete(id):liked.add(id);
+if(a==="dl")mine=mine.filter(x=>x.id!==id);
+if(a==="mu"&&w)muted.add(w.h);
+if(a==="re"&&w){rep=w.h;view="home";draw();$("#ta").value="@"+w.h+" ";$("#ta").oninput();$("#ta").focus()}
+draw();side()};
+$("#who").onclick=e=>{const b=e.target.closest("button");if(!b)return;const h=b.dataset.h;fol.has(h)?fol.delete(h):fol.add(h);side();draw()};
+$("#tr").onclick=e=>{const a=e.target.closest("a");if(!a)return;filter=a.dataset.q;$("#q").value=filter;draw()};
+setInterval(()=>{if(document.hidden)return;const w=mk(T[lang][Math.floor(Math.random()*5)],0);w.r=0;w.f=0;newq.unshift(w);if(view==="home"&&!filter){$("#nb").hidden=false;$("#nb").textContent=newq.length+" "+L2[lang][6]}},9000);
+setInterval(()=>{if(document.hidden)return;const p=T[lang][Math.floor(Math.random()*5)],w=mk(p,0);w.r=0;w.f=0;if(Math.random()<.3){w.fl=1;w.x=""}else w.x="@tu_usuario "+p[2];ment.unshift(w);if(ment.length>20)ment.pop();if(view==="mentions")draw(w.id);else{unread++;$("#n1").textContent=L[lang][1]+" ("+unread+")"}},22000);
+setInterval(()=>{const a=document.activeElement;if(!a||(a.id!=="bio"&&a.id!=="dmi"))draw()},60000);
+document.addEventListener("keydown",e=>{const g=e.target.tagName||"";if(/INPUT|TEXTAREA|SELECT/.test(g)){if(e.target.id==="dmi"&&e.key==="Enter")sendDm();return}if(e.key==="n"){e.preventDefault();view="home";draw();$("#ta").focus()}if(e.key==="/"){e.preventDefault();$("#q").focus()}});
+build();ui();
+</script>
+</body>
+</html>
